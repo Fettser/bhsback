@@ -1,19 +1,30 @@
 const express = require('express')
+const axios = require('axios')
 const cors = require('cors')
+const rateLimit = require('express-rate-limit')
+
 const secretKey = process.env.SECRET_KEY || '6LdXcwUhAAAAAJpbiR3gN63n8qvY_PoGKZBU-_T2'
 const PORT = process.env.PORT || 8080
 const HOST = process.env.HOST || '0.0.0.0'
-const axios = require('axios')
 
 const app = express()
 
-corsOptions = {
+const corsOptions = {
     origin: 'https://bearheadstudio.ru'
 }
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false
+})
 
 app.use(express.json({extended: true}))
 
 app.use(cors(corsOptions))
+
+app.use(limiter)
 
 app.post('/api/form', async function (req, res, next) {
     try {
