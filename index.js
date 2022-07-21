@@ -11,9 +11,11 @@ corsOptions = {
 
 app.use(express.json({extended: true}))
 
-app.use(cors(corsOptions))
+app.get('/', function (req, res, next) {
+    res.send('Hello!')
+})
 
-app.post('/api/form', async function (req, res, next) {
+app.post('/api/form', cors(corsOptions), async function (req, res, next) {
     try {
         if (!req.body.captcha) {
             return res.status(403).json({message: 'Forbidden'})
