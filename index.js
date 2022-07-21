@@ -47,4 +47,4 @@ app.post('/api/form', cors(corsOptions), async function (req, res, next) {
     }
 })
 
-app.listen(3000, () => console.log('server works'))
+app.listen(3000, '0.0.0.0', () => console.log('server works'))
