@@ -16,6 +16,7 @@ const corsOptions = {
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 5,
+    message: 'Too many requests from this IP address',
     standardHeaders: true,
     legacyHeaders: false
 })
