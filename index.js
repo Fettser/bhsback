@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const secretKey = process.env.SECRET_KEY || '6LdXcwUhAAAAAJpbiR3gN63n8qvY_PoGKZBU-_T2'
+const PORT = process.env.PORT || 8080
+const HOST = process.env.HOST || '0.0.0.0'
 const axios = require('axios')
 
 const app = express()
@@ -45,4 +47,4 @@ app.post('/api/form', async function (req, res, next) {
     }
 })
 
-app.listen(3000, '0.0.0.0', () => console.log('server works'))
+app.listen(PORT, HOST, () => console.log('server works'))
