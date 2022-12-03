@@ -10,7 +10,7 @@ const HOST = process.env.HOST || '0.0.0.0'
 const app = express()
 
 const corsOptions = {
-    origin: 'https://bearheadstudio.ru'
+    origin: ['https://apitechnoforge.ru', 'https://www.apitechnoforge.ru']
 }
 
 const limiter = rateLimit({
@@ -22,18 +22,16 @@ const limiter = rateLimit({
 })
 
 app.use(express.json({extended: true}))
-
 app.use(cors(corsOptions))
-
 app.use(limiter)
 
 app.post('/api/form', async function (req, res, next) {
     try {
         if (!req.body.captcha) {
-            return res.status(403).json({message: 'Forbidden'})
+            return res.status(403).json({message: 'Forbidden'}) // проверка агента пользователя на прохождение captcha
         }
 
-        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`
+        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}` // формирование адреса для отправки запроса по проверке пользователя
 
         const verifyResponse = await axios.get(verifyUrl)
 
@@ -41,14 +39,14 @@ app.post('/api/form', async function (req, res, next) {
             return res.status(403).json({message: 'Forbidden'})
         }
 
-        const formsResponse = await axios('https://secret-retreat-07359.herokuapp.com/https://docs.google.com/forms/u/0/d/e/1FAIpQLSfEUsM-YS2BIV74kqqpLdEMq8aHUGVhVGcN2sa164mlJVEIJw/formResponse', {
+        const formsResponse = await axios('https://docs.google.com/forms/u/0/d/e/1FAIpQLSfEUsM-YS2BIV74kqqpLdEMq8aHUGVhVGcN2sa164mlJVEIJw/formResponse', {
             method: 'POST',
             data: req.body.formBody,
             headers: {
-                'Origin': 'https://safe-stream-23201.herokuapp.com',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
+
         if (formsResponse.status === 200) {
             return res.status(200).json({message: formsResponse.statusText})
         } else {
