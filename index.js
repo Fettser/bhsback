@@ -3,7 +3,7 @@ const axios = require('axios')
 const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 
-const secretKey = process.env.SECRET_KEY || '6LdXcwUhAAAAAJpbiR3gN63n8qvY_PoGKZBU-_T2'
+const secretKey = process.env.SECRET_KEY
 const PORT = process.env.PORT || 8080
 const HOST = process.env.HOST || '0.0.0.0'
 
@@ -31,7 +31,7 @@ app.post('/api/form', async function (req, res, next) {
             return res.status(403).json({message: 'Forbidden'}) // проверка агента пользователя на прохождение captcha
         }
 
-        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}` // формирование адреса для отправки запроса по проверке пользователя
+        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`
 
         const verifyResponse = await axios.get(verifyUrl)
 
