@@ -28,7 +28,7 @@ app.use(limiter)
 app.post('/api/form', async function (req, res, next) {
     try {
         if (!req.body.captcha) {
-            return res.status(403).json({message: 'Forbidden'}) // проверка агента пользователя на прохождение captcha
+            return res.status(403).json({message: 'Forbidden'})
         }
 
         const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`
